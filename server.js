@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+const users = require('./api/routes/users');
+const profiles = require('./api/routes/profiles');
+const posts = require('./api/routes/posts');
+
 // DB config keys
 const db = require('./config/keys').mongoURI;
 
@@ -12,6 +16,11 @@ mongoose
     .catch((error)=> console.log(error));
 
 app.get('/', (req, res) => res.send('Hello!'));
+
+// Use Routes
+app.use('/api/users', users);
+app.use('/api/profile', profiles);
+app.use('/api/posts', posts);
 
 const port = process.env.PORT || 5000 ;
 
