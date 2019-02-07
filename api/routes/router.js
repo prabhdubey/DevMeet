@@ -1,13 +1,15 @@
 import {Router} from 'express';
 import UserController from '../controllers/userController';
 import User from '../models/user';
+import UserService from "../services/user_service";
 const router = Router();
 
 // Controllers
-const userController = new UserController(User);
+const userController = new UserController(new UserService(User));
 
 // ====================================User Routes====================================================================
-
+// Home Route
+router.get('/', (req, res) => res.send('Hello!'));
 // @route   GET api/users/test
 // @desc    Test users route
 // @access  Public

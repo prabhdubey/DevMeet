@@ -14,7 +14,8 @@ mongoose
     .then(()=> console.log('Mongo DB connected'))
     .catch((error)=> console.log(error));
 
-app.get('/', (req, res) => res.send('Hello!'));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // Use Routes
 app.use('/api', routes);

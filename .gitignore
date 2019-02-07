@@ -10,3 +10,6 @@ gst
 # System Files
 .DS_Store
 Thumbs.db
+
+# Env file
+.env
