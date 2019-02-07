@@ -20,6 +20,11 @@ router.get('/users/test',  (req, res)=> res.json({msg: 'User Route works'}));
 // @access  Public
 router.post('/users/register',  userController.register);
 
+// @route   POST api/users/login
+// @desc    Login user and Get JWT token route
+// @access  Public
+router.post('/users/login',  userController.login);
+
 // ====================================Profile Routes====================================================================
 
 // @route   GET api/profiles/test

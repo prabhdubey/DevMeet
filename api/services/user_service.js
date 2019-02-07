@@ -2,6 +2,8 @@ import Errors from "../lib/constants";
 import _ from 'underscore';
 import gravatar from 'gravatar';
 import bcrypt from 'bcryptjs';
+import * as Respone from "../lib/response";
+import jwt from 'jsonwebtoken';
 
 export default class UserService {
     constructor(model) {
@@ -13,16 +15,52 @@ export default class UserService {
         return this._model.findOne({email: req.body.email})
             .then(user => {
                 if (user) {
-                    return {'error': Errors.ResponseErrors.EMAIL_ALREADY_EXISTS};
+                    return Respone.createResponse(null, null, Errors.ResponseErrors.EMAIL_ALREADY_EXISTS);
                 }
                 try {
                     return this.createNewUser(req).then((user) => {
-                        return {'data': user, 'error': null};
+                        return Respone.createResponse(user);
                     });
                 }
                 catch (err) {
-                    return {'data': null, 'error': err};
+                    return Respone.createResponse(null, null, err);
                 }
+            });
+    }
+
+    login(req) {
+        const email = req.body.email;
+        const password = req.body.password;
+        return this._model.findOne({email: email})
+            .then((user) => {
+                if (!user) {
+                    Respone.createResponse(null, null, Errors.ResponseErrors.USER_NOT_FOUND);
+                }
+                this.comparePassword(password, user)
+                    .then((isMatch) => {
+                        if (!isMatch) {
+                          return  Respone.createResponse(null, null, Errors.ResponseErrors.USER_NOT_FOUND);
+                        }
+                        console.log(this.getToken(user));
+                    })
+            })
+    }
+
+    getToken(user) {
+        const payload = {
+            id: user.id,
+            name: user.name,
+            avatar: user.avatar
+        };
+        jwt.sign(
+          payload, process.env.SECRET_OR_KEY
+        )
+    }
+
+    comparePassword(password, user) {
+        return bcrypt.compare(password, user.password)
+            .then(isMatch => {
+                return isMatch
             });
     }
 

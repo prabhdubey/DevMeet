@@ -7,12 +7,20 @@ export default class UserController {
     }
 
     register(req, res) {
-        this.userService.register(req).then((userRegisterResponse) => {
-            console.log(userRegisterResponse);
-            if (userRegisterResponse.error) {
-                return res.status(400).json(userRegisterResponse)
+        this.userService.register(req).then((userRegistrationResponse) => {
+            if (userRegistrationResponse.error) {
+                return res.status(400).json(userRegistrationResponse);
             }
-            return res.json(userRegisterResponse);
+            return res.json(userRegistrationResponse);
+        });
+    }
+
+    login(req, res) {
+        this.userService.login(req).then((userLoginResponse)=> {
+            if (userLoginResponse.error) {
+                return res.status(404).json(userLoginResponse);
+            }
+            return res.json(userLoginResponse);
         });
     }
 }
