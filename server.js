@@ -1,14 +1,13 @@
-const express = require('express');
-const mongoose = require('mongoose');
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import routes from './api/routes/router';
+import 'dotenv/config';
 
 const app = express();
 
-const users = require('./api/routes/users');
-const profiles = require('./api/routes/profiles');
-const posts = require('./api/routes/posts');
-
 // DB config keys
-const db = require('./config/keys').mongoURI;
+const db = process.env.MONGO_URI;
 
 mongoose
     .connect(db)
@@ -18,9 +17,7 @@ mongoose
 app.get('/', (req, res) => res.send('Hello!'));
 
 // Use Routes
-app.use('/api/users', users);
-app.use('/api/profile', profiles);
-app.use('/api/posts', posts);
+app.use('/api', routes);
 
 const port = process.env.PORT || 5000 ;
 
