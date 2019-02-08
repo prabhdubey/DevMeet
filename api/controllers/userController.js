@@ -6,7 +6,7 @@ import _ from 'underscore';
 export default class UserController {
     constructor(userService) {
         this.userService = userService;
-        _.bindAll(this, 'register', 'login');
+        _.bindAll(this, 'register', 'login', 'current');
     }
 
     /**
@@ -37,5 +37,14 @@ export default class UserController {
             }
             return res.json(userLoginResponse);
         });
+    }
+
+    current(req, res) {
+        this.userService.currentUser(req).then(currentUserResponse => {
+            if (currentUserResponse.error) {
+                return res.status(400).json(currentUserResponse);
+            }
+            return res.json(currentUserResponse);
+        })
     }
 }

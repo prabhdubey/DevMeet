@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken';
 export default class UserService {
     constructor(model) {
         this._model = model;
-        _.bindAll(this, 'register', 'createNewUser', 'login');
+        _.bindAll(this, 'register', 'createNewUser', 'login', 'currentUser');
     }
 
     /**
@@ -54,7 +54,7 @@ export default class UserService {
                 }
                 if (await user.isPasswordValid(password)) {
                     return Response.createResponse(
-                        {user_id: user.id, 'token': this.getToken(user)},
+                        {user_id: user.id, 'token': 'Bearer ' + this.getToken(user)},
                         ResponseMessage.ResponseSuccess.SUCCESSFULLY_SIGNED_IN,
                         null
                     )
@@ -62,6 +62,23 @@ export default class UserService {
                 return Response.createResponse(null, null, ResponseMessage.ResponseErrors.INVALID_USERNAME_PASSWORD);
             })
     }
+
+    /**
+     * Current User method to return current user if authentication passes
+     *
+     * @param req Request
+     *
+     * @returns {{data: *, msg: *, error: *}}
+     */
+    async currentUser(req) {
+        return Response.createResponse({
+            id: req.user.id,
+            name: req.user.name,
+            email: req.user.email
+        })
+    }
+
+    // Helper Methods
 
     /**
      * CreateNewUser method to create new user for the given attributes
