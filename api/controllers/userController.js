@@ -1,4 +1,6 @@
 import _ from 'underscore';
+import validateRegisterInput from '../validations/register_validator';
+import * as Response from "../lib/response";
 
 /**
  * UserController class containing user related actions
@@ -16,6 +18,11 @@ export default class UserController {
      * @param res Response
      */
     register(req, res) {
+        // Request validation
+        const {errors, isValid} = validateRegisterInput(req.body);
+        if (!isValid) {
+            return res.status(400).json(Response.createResponse(null, null, errors))
+        }
         this.userService.register(req).then((userRegistrationResponse) => {
             if (userRegistrationResponse.error) {
                 return res.status(400).json(userRegistrationResponse);
@@ -31,7 +38,7 @@ export default class UserController {
      * @param res Response
      */
     login(req, res) {
-        this.userService.login(req).then((userLoginResponse)=> {
+        this.userService.login(req).then((userLoginResponse) => {
             if (userLoginResponse.error) {
                 return res.status(404).json(userLoginResponse);
             }

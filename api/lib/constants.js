@@ -7,3 +7,7 @@ exports.ResponseErrors = Object.freeze({
 exports.ResponseSuccess = Object.freeze({
    SUCCESSFULLY_SIGNED_IN: 'User successfully signed in'
 });
+
+exports.ValidationErrors = Object.freeze({
+   NAME_VALIDATION: "Name must be between 2 and 10"
+});
