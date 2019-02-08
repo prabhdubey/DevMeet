@@ -1,70 +1,76 @@
-import Errors from "../lib/constants";
+import ResponseMessage from "../lib/constants";
 import _ from 'underscore';
-import gravatar from 'gravatar';
-import bcrypt from 'bcryptjs';
-import * as Respone from "../lib/response";
+import gravatar from 'gravatar';;
+import * as Response from "../lib/response";
 import jwt from 'jsonwebtoken';
 
+/**
+ * User Service class to hold business logic
+ */
 export default class UserService {
     constructor(model) {
         this._model = model;
-        _.bindAll(this, 'register', 'generatePassword', 'createNewUser');
+        _.bindAll(this, 'register', 'createNewUser', 'login');
     }
 
+    /**
+     * Register method to save user if not created
+     *
+     * @param req Request
+     *
+     * @returns {Promise}
+     */
     register(req) {
         return this._model.findOne({email: req.body.email})
             .then(user => {
                 if (user) {
-                    return Respone.createResponse(null, null, Errors.ResponseErrors.EMAIL_ALREADY_EXISTS);
+                    return Response.createResponse(null, null, ResponseMessage.ResponseErrors.EMAIL_ALREADY_EXISTS);
                 }
                 try {
                     return this.createNewUser(req).then((user) => {
-                        return Respone.createResponse(user);
+                        return Response.createResponse(user);
                     });
                 }
                 catch (err) {
-                    return Respone.createResponse(null, null, err);
+                    return Response.createResponse(null, null, err);
                 }
             });
     }
 
+    /**
+     * Login method to validate user and return JWT token if user successfully signs in
+     *
+     * @param req Request
+     *
+     * @returns {Promise}
+     */
     login(req) {
         const email = req.body.email;
         const password = req.body.password;
         return this._model.findOne({email: email})
-            .then((user) => {
+            .then(async (user) => {
                 if (!user) {
-                    Respone.createResponse(null, null, Errors.ResponseErrors.USER_NOT_FOUND);
+                    return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_NOT_FOUND);
                 }
-                this.comparePassword(password, user)
-                    .then((isMatch) => {
-                        if (!isMatch) {
-                          return  Respone.createResponse(null, null, Errors.ResponseErrors.USER_NOT_FOUND);
-                        }
-                        console.log(this.getToken(user));
-                    })
+                if (await user.isPasswordValid(password)) {
+                    return Response.createResponse(
+                        {user_id: user.id, 'token': this.getToken(user)},
+                        ResponseMessage.ResponseSuccess.SUCCESSFULLY_SIGNED_IN,
+                        null
+                    )
+                }
+                return Response.createResponse(null, null, ResponseMessage.ResponseErrors.INVALID_USERNAME_PASSWORD);
             })
     }
 
-    getToken(user) {
-        const payload = {
-            id: user.id,
-            name: user.name,
-            avatar: user.avatar
-        };
-        jwt.sign(
-          payload, process.env.SECRET_OR_KEY
-        )
-    }
-
-    comparePassword(password, user) {
-        return bcrypt.compare(password, user.password)
-            .then(isMatch => {
-                return isMatch
-            });
-    }
-
-    createNewUser(req) {
+    /**
+     * CreateNewUser method to create new user for the given attributes
+     *
+     * @param req Request
+     *
+     * @returns {Promise<T>}
+     */
+    async createNewUser(req) {
         const avatar = gravatar.url(
             req.body.email, {
                 s: process.env.PROFILE_IMAGE_SIZE,
@@ -77,31 +83,28 @@ export default class UserService {
             password: req.body.password,
             avatar
         });
-        try {
-            newUser.password = this.generatePassword(newUser);
-            return newUser.save()
-                .then((user) => {
-                    return user;
-                })
-                .catch((err) => {
-                    throw err;
-                });
-
-        }
-        catch (err) {
-            throw err;
-        }
-
+        return await newUser.save()
+            .then((user) => {
+                return user;
+            })
+            .catch((err) => {
+                throw err;
+            });
     }
 
-    generatePassword(newUser) {
-        return bcrypt.genSaltSync(parseInt(process.env.PASSWORD_HASH_LEN), (err, salt) => {
-            bcrypt.hash(newUser.password, salt, (err, hash) => {
-                console.log('error', err);
-                console.log('hash', hash);
-                if (err) throw err;
-                return hash;
-            })
-        })
+    /**
+     * GetToken method to get JWT token for the given user
+     *
+     * @param user User Instance
+     *
+     * @returns string
+     */
+    getToken(user) {
+        const payload = {id: user.id, name: user.name, avatar: user.avatar};
+        return jwt.sign(
+            payload,
+            process.env.SECRET_OR_KEY,
+            {expiresIn: parseInt(process.env.TOKEN_EXPIRE_TIME)}
+        );
     }
 }

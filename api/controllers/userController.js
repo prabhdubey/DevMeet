@@ -1,11 +1,20 @@
 import _ from 'underscore';
 
+/**
+ * UserController class containing user related actions
+ */
 export default class UserController {
     constructor(userService) {
         this.userService = userService;
-        _.bindAll(this, 'register');
+        _.bindAll(this, 'register', 'login');
     }
 
+    /**
+     * Register method to successfully register user
+     *
+     * @param req Request
+     * @param res Response
+     */
     register(req, res) {
         this.userService.register(req).then((userRegistrationResponse) => {
             if (userRegistrationResponse.error) {
@@ -15,6 +24,12 @@ export default class UserController {
         });
     }
 
+    /**
+     * Login method to successfully login user
+     *
+     * @param req Request
+     * @param res Response
+     */
     login(req, res) {
         this.userService.login(req).then((userLoginResponse)=> {
             if (userLoginResponse.error) {
