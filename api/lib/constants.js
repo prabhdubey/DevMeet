@@ -1,7 +1,8 @@
 exports.ResponseErrors = Object.freeze({
     EMAIL_ALREADY_EXISTS: 'Email already Exists',
     USER_NOT_FOUND: 'User not found',
-    INVALID_USERNAME_PASSWORD: 'Invalid username and password'
+    INVALID_USERNAME_PASSWORD: 'Invalid username and password',
+    USER_PROFILE_NOT_FOUND: 'User not found'
 });
 
 exports.ResponseSuccess = Object.freeze({

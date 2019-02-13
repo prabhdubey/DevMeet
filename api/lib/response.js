@@ -7,10 +7,11 @@
  *
  * @returns {{data: *, msg: *, error: *}}
  */
-export function createResponse(data = null, msg = null, error = null) {
+export function createResponse(data = null, msg = null, error = null, status = 200) {
     return {
         'data': data,
         'msg': msg,
-        'error': error
+        'error': error,
+        'status': status
     }
 }

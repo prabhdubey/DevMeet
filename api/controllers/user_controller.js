@@ -21,7 +21,7 @@ export default class UserController {
         // Request validation
         const {errors, isValid} = validateRegisterInput(req.body);
         if (!isValid) {
-            return res.status(400).json(Response.createResponse(null, null, errors))
+            return res.status(400).json(Response.createResponse(null, null, errors, 400))
         }
         this.userService.register(req).then((userRegistrationResponse) => {
             if (userRegistrationResponse.error) {
