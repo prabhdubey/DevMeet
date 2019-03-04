@@ -47,6 +47,13 @@ export default class UserProfileService {
 
     }
 
+    /**
+     * Method to get profile using user handle
+     *
+     * @param req Request
+     *
+     * @returns {Promise}
+     */
     profileUsingHandle(req) {
         return this._model.findOne({handle: req.params.handle})
             .populate('user', ['email', 'avatar'])
@@ -58,11 +65,14 @@ export default class UserProfileService {
             })
     }
 
+    /**
+     * Create user profile attributes
+     *
+      * @param req Request
+     */
     profileFields(req) {
         const profileFields = {};
         profileFields.user = req.user.id;
-        console.log(profileFields.user);
-        console.log("=============================================")
         if (req.body.handle) profileFields.handle = req.body.handle;
         if (req.body.company) profileFields.company = req.body.company;
         if (req.body.website) profileFields.website = req.body.website;

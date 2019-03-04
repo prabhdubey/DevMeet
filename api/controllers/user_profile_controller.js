@@ -10,6 +10,12 @@ export default class UserProfileController {
         _.bindAll(this, 'getUserProfile', 'createUserProfile', 'getProfileUsingHandle');
     }
 
+    /**
+     * Method to get user profile using user id
+     *
+     * @param req Request
+     * @param res Response
+     */
     getUserProfile(req, res) {
         this.userProfileService.getUserProfile(req).then(userProfileResponse => {
             if (userProfileResponse.error) {
@@ -19,6 +25,12 @@ export default class UserProfileController {
         })
     }
 
+    /**
+     * Method to create user profile
+     *
+     * @param req Request
+     * @param res Response
+     */
     createUserProfile(req, res) {
         const { errors, isValid } = validateProfileInput(req.body);
         // Check Validation
@@ -33,6 +45,12 @@ export default class UserProfileController {
         })
     }
 
+    /**
+     * Method to get user profile using user handle
+     *
+     * @param req Request
+     * @param res Response
+     */
     getProfileUsingHandle(req, res) {
         this.userProfileService.profileUsingHandle(req).then(userProfileResponse => {
             if (userProfileResponse.error) {
