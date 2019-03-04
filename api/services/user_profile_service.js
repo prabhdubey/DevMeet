@@ -8,7 +8,7 @@ import * as Response from "../lib/response";
 export default class UserProfileService {
     constructor(model) {
         this._model = model;
-        _.bindAll(this, 'getUserProfile', 'profileFields', 'createUserProfile', 'profileUsingHandle');
+        _.bindAll(this, 'getUserProfile', 'profileFields', 'createUserProfile', 'profileUsingHandle', 'allUserProfiles');
     }
 
     getUserProfile(req) {
@@ -66,9 +66,25 @@ export default class UserProfileService {
     }
 
     /**
+     * Method to get all user profiles
+     *
+     * @returns {Promise}
+     */
+    allUserProfiles() {
+        return this._model.find()
+            .populate('user', ['email', 'avatar'])
+            .then(profiles => {
+                if (profiles) {
+                    return Response.createResponse(profiles, null, null);
+                }
+                return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
+            })
+    }
+
+    /**
      * Create user profile attributes
      *
-      * @param req Request
+     * @param req Request
      */
     profileFields(req) {
         const profileFields = {};

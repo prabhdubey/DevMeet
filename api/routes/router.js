@@ -31,6 +31,9 @@ router.post('/users/register', userController.register);
 // @access  Public
 router.post('/users/login', userController.login);
 
+// @route   POST api/users/login
+// @desc    Login user and Get JWT token route
+// @access  Authenticated user
 router.get('/users/current', passport.authenticate("jwt", {session: false}), userController.current);
 
 
@@ -39,24 +42,27 @@ router.get('/users/current', passport.authenticate("jwt", {session: false}), use
 // @route   GET api/profiles/test
 // @desc    Test profiles route
 // @access  Public
-router.get('/profiles/test', (req, res) => res.json({msg: 'Profile Route works'}));
+router.get('/users/profiles/test', (req, res) => res.json({msg: 'Profile Route works'}));
+
+// @route   GET api/user/profiles/all
+// @desc    Get all user profiles
+// @access  Public
+router.get('/users/profiles/all', userProfileController.getAllUserProfiles);
 
 // @route   GET api/profiles/test
 // @desc    Test profiles route
 // @access  Public
-router.get('/profiles/:user_id', userProfileController.getUserProfile);
+router.get('/users/profiles/:user_id', userProfileController.getUserProfile);
 
 // @route   POST api/user/profiles/
 // @desc    Create or Update User Profile
 // @access  Public
-router.post('/profiles/', passport.authenticate('jwt', {session: false}), userProfileController.createUserProfile);
+router.post('/users/profiles', passport.authenticate('jwt', {session: false}), userProfileController.createUserProfile);
 
-// @route   POST api/user/profiles/
-// @desc    Create or Update User Profile
+// @route   GET api/user/profiles/
+// @desc    Get user profile using user handle
 // @access  Public
-router.get('/profiles/handle/:handle',
-    userProfileController.getProfileUsingHandle
-);
+router.get('/users/profiles/handle/:handle', userProfileController.getProfileUsingHandle);
 
 // ====================================Posts Routes====================================================================
 

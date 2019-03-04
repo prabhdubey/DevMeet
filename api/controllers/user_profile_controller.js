@@ -7,7 +7,7 @@ import validateProfileInput from '../validations/profile_validator';
 export default class UserProfileController {
     constructor(userProfileService) {
         this.userProfileService = userProfileService;
-        _.bindAll(this, 'getUserProfile', 'createUserProfile', 'getProfileUsingHandle');
+        _.bindAll(this, 'getUserProfile', 'createUserProfile', 'getProfileUsingHandle', 'getAllUserProfiles');
     }
 
     /**
@@ -53,6 +53,21 @@ export default class UserProfileController {
      */
     getProfileUsingHandle(req, res) {
         this.userProfileService.profileUsingHandle(req).then(userProfileResponse => {
+            if (userProfileResponse.error) {
+                return res.status(userProfileResponse.status).json(userProfileResponse);
+            }
+            return res.status(userProfileResponse.status).json(userProfileResponse);
+        })
+    }
+
+    /**
+     * Method to get all user profiles
+     *
+     * @param req Request
+     * @param res Response
+     */
+    getAllUserProfiles(req, res) {
+        this.userProfileService.allUserProfiles().then(userProfileResponse => {
             if (userProfileResponse.error) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }
