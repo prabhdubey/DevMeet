@@ -46,6 +46,18 @@ router.get('/profiles/test', (req, res) => res.json({msg: 'Profile Route works'}
 // @access  Public
 router.get('/profiles/:user_id', userProfileController.getUserProfile);
 
+// @route   POST api/user/profiles/
+// @desc    Create or Update User Profile
+// @access  Public
+router.post('/profiles/', passport.authenticate('jwt', {session: false}), userProfileController.createUserProfile);
+
+// @route   POST api/user/profiles/
+// @desc    Create or Update User Profile
+// @access  Public
+router.get('/profiles/handle/:handle',
+    userProfileController.getProfileUsingHandle
+);
+
 // ====================================Posts Routes====================================================================
 
 // @route   GET api/posts/test

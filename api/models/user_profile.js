@@ -6,18 +6,14 @@ const HANDLE_LEN = 40;
 
 // Create Schema
 const UserProfileSchema = new Schema({
-    user_id: {
+    user: {
         type: Schema.Types.ObjectId,
-        refs: 'user'
+        ref: 'users'
     },
     handle: {
         type: String,
         required: true,
         max: HANDLE_LEN
-    },
-    password: {
-        type: String,
-        required: true
     },
     company: {
         type: String,

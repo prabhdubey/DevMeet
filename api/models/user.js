@@ -3,7 +3,8 @@ import bcrypt from 'bcryptjs';
 const Schema = mongoose.Schema;
 
 // Create Schema
-const UserSchema = new Schema({
+const UserSchema = new Schema(
+    {
     name: {
         type: String,
         required: true
@@ -57,4 +58,4 @@ UserSchema.pre("save", async function (next) {
     }
 });
 
-export default mongoose.model('User', UserSchema);
+export default mongoose.model('users', UserSchema);
