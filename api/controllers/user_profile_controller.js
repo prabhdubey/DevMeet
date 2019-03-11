@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import validateProfileInput from '../validations/profile_validator';
+import validateExperienceInput from '../validations/experience_validator';
 
 /**
  * UserProfileController class containing user profile related actions
@@ -7,7 +8,8 @@ import validateProfileInput from '../validations/profile_validator';
 export default class UserProfileController {
     constructor(userProfileService) {
         this.userProfileService = userProfileService;
-        _.bindAll(this, 'getUserProfile', 'createUserProfile', 'getProfileUsingHandle', 'getAllUserProfiles');
+        _.bindAll(this, 'getUserProfile', 'createUserProfile', 'getProfileUsingHandle', 'getAllUserProfiles',
+            'addUserExperience');
     }
 
     /**
@@ -32,7 +34,7 @@ export default class UserProfileController {
      * @param res Response
      */
     createUserProfile(req, res) {
-        const { errors, isValid } = validateProfileInput(req.body);
+        const {errors, isValid} = validateProfileInput(req.body);
         // Check Validation
         if (!isValid) {
             return res.status(400).json(errors);
@@ -73,5 +75,33 @@ export default class UserProfileController {
             }
             return res.status(userProfileResponse.status).json(userProfileResponse);
         })
+    }
+
+    addUserExperience(req, res) {
+        const {errors, isValid} = validateExperienceInput(req.body);
+        // Check validation
+        if (!isValid) {
+            return res.status(400).json(errors);
+        }
+        this.userProfileService.addUserExperience(req).then(userProfileResponse => {
+            if (userProfileResponse.error) {
+                return res.status(userProfileResponse.status).json(userProfileResponse);
+            }
+            return res.status(userProfileResponse.status).json(userProfileResponse);
+        });
+    }
+
+    addUserEducation(req,res) {
+        const {errors, isValid} = validateExperienceInput(req.body);
+        // Check validation
+        if (!isValid) {
+            return res.status(400).json(errors);
+        }
+        this.userProfileService.addUserExperience(req).then(userProfileResponse => {
+            if (userProfileResponse.error) {
+                return res.status(userProfileResponse.status).json(userProfileResponse);
+            }
+            return res.status(userProfileResponse.status).json(userProfileResponse);
+        });
     }
 }

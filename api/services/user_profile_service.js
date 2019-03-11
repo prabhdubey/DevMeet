@@ -1,6 +1,8 @@
 import ResponseMessage from "../lib/constants";
 import _ from 'underscore';
 import * as Response from "../lib/response";
+import HelperValidator from "../validations/helper_validator";
+import moment from "moment";
 
 /**
  * User Profile Service class to hold business logic
@@ -8,7 +10,8 @@ import * as Response from "../lib/response";
 export default class UserProfileService {
     constructor(model) {
         this._model = model;
-        _.bindAll(this, 'getUserProfile', 'profileFields', 'createUserProfile', 'profileUsingHandle', 'allUserProfiles');
+        _.bindAll(this, 'getUserProfile', 'profileFields', 'createUserProfile', 'profileUsingHandle', 'allUserProfiles',
+            'addUserExperience');
     }
 
     getUserProfile(req) {
@@ -79,6 +82,43 @@ export default class UserProfileService {
                 }
                 return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
             })
+    }
+
+    /**
+     * Method to add user experience
+     *
+     * @param req Request
+     *
+     * @returns {Promise}
+     */
+    addUserExperience(req) {
+        return this._model.findOne({user: req.user_id})
+            .then(profile => {
+                req.body.to = !HelperValidator.isEmpty(req.body.to) ? req.body.to : moment(moment.now()).format("YYYY-MM-DD");
+                if (profile) {
+                    console.log(req.body.to);
+                    const newExp = {
+                        title: req.body.title,
+                        company: req.body.company,
+                        location: req.body.location,
+                        from: req.body.from,
+                        to: req.body.to,
+                        current: req.body.current,
+                        description: req.body.description
+                    };
+
+                    // Add to exp array
+                    profile.experience.unshift(newExp);
+                    return profile.save()
+                        .then(profile => {
+                            return Response.createResponse(profile);
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
+            })
+            .catch(err => console.log(err));
     }
 
     /**

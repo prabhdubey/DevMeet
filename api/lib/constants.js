@@ -22,5 +22,9 @@ exports.ValidationErrors = Object.freeze({
     HANDLE_REQUIRED: 'Profile handle is required',
     STATUS_REQUIRED: 'Status field is required',
     SKILL_REQUIRED: 'Skills field is required',
-    INVALID_URL: 'Not a valid URL'
+    INVALID_URL: 'Not a valid URL',
+    JOB_TITLE_REQUIRED: 'Job title field is required',
+    COMPANY_REQUIRED: 'Company field is required',
+    FROM_DATE_IS_REQUIRED: 'From date field is required',
+    INVALID_DATE: 'Invalid date start date is greater than end date'
 });

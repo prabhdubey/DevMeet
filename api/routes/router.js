@@ -64,6 +64,22 @@ router.post('/users/profiles', passport.authenticate('jwt', {session: false}), u
 // @access  Public
 router.get('/users/profiles/handle/:handle', userProfileController.getProfileUsingHandle);
 
+// @route   POST api/user/profiles/
+// @desc    Create or Update User Profile
+// @access  Public
+router.post('/users/profiles/experience',
+    passport.authenticate('jwt', {session: false}),
+    userProfileController.addUserExperience
+);
+
+// @route   POST api/profile/education
+// @desc    Add education to profile
+// @access  Private
+router.post(
+    '/users/profiles/education',
+    passport.authenticate('jwt', { session: false }),
+    userProfileController.addUserEducation
+);
 // ====================================Posts Routes====================================================================
 
 // @route   GET api/posts/test
