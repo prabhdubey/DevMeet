@@ -9,7 +9,7 @@ export default class UserProfileController {
     constructor(userProfileService) {
         this.userProfileService = userProfileService;
         _.bindAll(this, 'getUserProfile', 'createUserProfile', 'getProfileUsingHandle', 'getAllUserProfiles',
-            'addUserExperience');
+            'addUserExperience', 'removeUserExperience');
     }
 
     /**
@@ -77,6 +77,12 @@ export default class UserProfileController {
         })
     }
 
+    /**
+     * Method to add user experience
+     *
+     * @param req Request
+     * @param res Response
+     */
     addUserExperience(req, res) {
         const {errors, isValid} = validateExperienceInput(req.body);
         // Check validation
@@ -91,6 +97,12 @@ export default class UserProfileController {
         });
     }
 
+    /**
+     * Method to add user education
+     *
+     * @param req Request
+     * @param res Response
+     */
     addUserEducation(req,res) {
         const {errors, isValid} = validateExperienceInput(req.body);
         // Check validation
@@ -98,6 +110,21 @@ export default class UserProfileController {
             return res.status(400).json(errors);
         }
         this.userProfileService.addUserExperience(req).then(userProfileResponse => {
+            if (userProfileResponse.error) {
+                return res.status(userProfileResponse.status).json(userProfileResponse);
+            }
+            return res.status(userProfileResponse.status).json(userProfileResponse);
+        });
+    }
+
+    /**
+     * Method to remove user experience
+     *
+     * @param req Request
+     * @param res Response
+     */
+    removeUserExperience(req, res) {
+        this.userProfileService.removeUserExperience(req).then(userProfileResponse => {
             if (userProfileResponse.error) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }

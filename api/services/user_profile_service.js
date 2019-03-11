@@ -11,7 +11,7 @@ export default class UserProfileService {
     constructor(model) {
         this._model = model;
         _.bindAll(this, 'getUserProfile', 'profileFields', 'createUserProfile', 'profileUsingHandle', 'allUserProfiles',
-            'addUserExperience');
+            'addUserExperience', 'removeUserExperience');
     }
 
     getUserProfile(req) {
@@ -117,6 +117,33 @@ export default class UserProfileService {
                             console.log(err)
                         })
                 }
+            })
+            .catch(err => console.log(err));
+    }
+
+    /**
+     * Method to remove user experience
+     *
+     * @param req Request
+     *
+     * @returns {Promise}
+     */
+    removeUserExperience(req) {
+        return this._model.findOne({user: req.user_id})
+            .then(profile => {
+                if (profile) {
+                    const indexToBeRemoved = profile.experience
+                        .map(item => item.id)
+                        .indexOf(req.params.exp_id);
+
+                    // splice out of array
+                    profile.experience.splice(indexToBeRemoved, 1);
+
+                    return profile.save().then(profile => {
+                        return Response.createResponse(profile, null, null);
+                    })
+                }
+                return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
             })
             .catch(err => console.log(err));
     }
