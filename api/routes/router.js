@@ -81,7 +81,6 @@ router.post(
     userProfileController.addUserEducation
 );
 
-
 // @route   DELETE api/profile/experience/:exp_id
 // @desc    Add education to profile
 // @access  Private
@@ -89,6 +88,15 @@ router.delete(
     '/users/profiles/experience/:exp_id',
     passport.authenticate('jwt', { session: false }),
     userProfileController.removeUserExperience
+);
+
+// @route   DELETE api/profile/education/:edu_id
+// @desc    Add education to profile
+// @access  Private
+router.delete(
+    '/users/profiles/education/:edu_id',
+    passport.authenticate('jwt', { session: false }),
+    userProfileController.removeUserEducation
 );
 
 // ====================================Posts Routes====================================================================

@@ -1,6 +1,7 @@
 import _ from 'underscore';
 import validateProfileInput from '../validations/profile_validator';
 import validateExperienceInput from '../validations/experience_validator';
+import validateEducationInput from '../validations/education_validator';
 
 /**
  * UserProfileController class containing user profile related actions
@@ -9,7 +10,7 @@ export default class UserProfileController {
     constructor(userProfileService) {
         this.userProfileService = userProfileService;
         _.bindAll(this, 'getUserProfile', 'createUserProfile', 'getProfileUsingHandle', 'getAllUserProfiles',
-            'addUserExperience', 'removeUserExperience');
+            'addUserExperience', 'addUserEducation', 'removeUserExperience', 'removeUserEducation');
     }
 
     /**
@@ -104,12 +105,12 @@ export default class UserProfileController {
      * @param res Response
      */
     addUserEducation(req,res) {
-        const {errors, isValid} = validateExperienceInput(req.body);
+        const {errors, isValid} = validateEducationInput(req.body);
         // Check validation
         if (!isValid) {
             return res.status(400).json(errors);
         }
-        this.userProfileService.addUserExperience(req).then(userProfileResponse => {
+        this.userProfileService.addUserEducation(req).then(userProfileResponse => {
             if (userProfileResponse.error) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }
@@ -125,6 +126,15 @@ export default class UserProfileController {
      */
     removeUserExperience(req, res) {
         this.userProfileService.removeUserExperience(req).then(userProfileResponse => {
+            if (userProfileResponse.error) {
+                return res.status(userProfileResponse.status).json(userProfileResponse);
+            }
+            return res.status(userProfileResponse.status).json(userProfileResponse);
+        });
+    }
+
+    removeUserEducation(req, res) {
+        this.userProfileService.removeUserEducation(req).then(userProfileResponse => {
             if (userProfileResponse.error) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }

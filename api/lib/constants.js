@@ -26,5 +26,8 @@ exports.ValidationErrors = Object.freeze({
     JOB_TITLE_REQUIRED: 'Job title field is required',
     COMPANY_REQUIRED: 'Company field is required',
     FROM_DATE_IS_REQUIRED: 'From date field is required',
-    INVALID_DATE: 'Invalid date start date is greater than end date'
+    INVALID_DATE: 'Invalid date start date is greater than end date',
+    SCHOOL_IS_REQUIRED: 'School field is required',
+    DEGREE_IS_REQUIRED: 'Degree field is required',
+    STUDY_FIELD_IS_REQUIRED: 'Field of study field is required',
 });
