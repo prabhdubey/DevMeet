@@ -1,10 +1,13 @@
 import {Router} from 'express';
 import UserController from '../controllers/user_controller';
 import UserProfileController from '../controllers/user_profile_controller';
+import PostController from '../controllers/post_controller';
 import User from '../models/user';
 import UserProfile from '../models/user_profile';
+import Post from '../models/post';
 import UserService from "../services/user_service";
 import UserProfileService from "../services/user_profile_service";
+import PostService from "../services/post_service";
 import passport from 'passport';
 
 const router = Router();
@@ -12,6 +15,7 @@ const router = Router();
 // Controllers
 const userController = new UserController(new UserService(User));
 const userProfileController = new UserProfileController(new UserProfileService(UserProfile));
+const postController = new PostController(new PostService(Post));
 
 // ====================================User Routes====================================================================
 // Home Route
@@ -82,7 +86,7 @@ router.post(
 );
 
 // @route   DELETE api/profile/experience/:exp_id
-// @desc    Add education to profile
+// @desc    Remove experience from profile
 // @access  Private
 router.delete(
     '/users/profiles/experience/:exp_id',
@@ -91,7 +95,7 @@ router.delete(
 );
 
 // @route   DELETE api/profile/education/:edu_id
-// @desc    Add education to profile
+// @desc    Remove education from profile
 // @access  Private
 router.delete(
     '/users/profiles/education/:edu_id',
@@ -105,6 +109,22 @@ router.delete(
 // @desc    Test posts route
 // @access  Public
 router.get('/posts/test', (req, res) => res.json({msg: 'Posts Route works'}));
+
+// @route   POST api/posts/
+// @desc    Create posts route
+// @access  Private
+router.post('/posts', passport.authenticate('jwt', { session: false }), postController.create);
+
+// @route   GET api/posts/:id
+// @desc    Get post route
+// @access  Private
+router.get('/posts/:id', passport.authenticate('jwt', { session: false }), postController.getPost);
+
+// @route   GET api/posts
+// @desc    Get posts route
+// @access  Private
+router.get('/posts', passport.authenticate('jwt', { session: false }), postController.getAllPosts);
+
 
 
 export default router;

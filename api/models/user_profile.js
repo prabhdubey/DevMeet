@@ -121,4 +121,4 @@ const UserProfileSchema = new Schema({
 });
 
 
-export default mongoose.model('UserProfile', UserProfileSchema);
+export default mongoose.model('userProfile', UserProfileSchema);

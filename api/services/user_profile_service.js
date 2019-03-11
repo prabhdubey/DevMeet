@@ -20,7 +20,7 @@ export default class UserProfileService {
                 if (!profile) {
                     return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
                 }
-                return Response.createResponse(profile, null, null);
+                return Response.createResponse(profile);
             })
             .catch(err => {
                 return Response.createResponse(null, null, err, 400);
@@ -34,7 +34,7 @@ export default class UserProfileService {
             .then(profile => {
                 if (profile) {
                     console.log(profile);
-                    return Response.createResponse(profile, null, null)
+                    return Response.createResponse(profile)
                 }
                 return this._model.findOne({handle: profileFields.handle})
                     .then(profile => {
@@ -42,7 +42,7 @@ export default class UserProfileService {
                             return Response.createResponse(null, null, ResponseMessage.ResponseErrors.HANDLE_ALREADY_EXISTS, 400);
                         }
                         return new this._model(profileFields).save().then(profile => {
-                            return Response.createResponse(profile, null, null);
+                            return Response.createResponse(profile);
                         })
                             .catch(err => console.log(err));
                     })
@@ -62,7 +62,7 @@ export default class UserProfileService {
             .populate('user', ['email', 'avatar'])
             .then((profile) => {
                 if (profile) {
-                    return Response.createResponse(profile, null, null);
+                    return Response.createResponse(profile);
                 }
                 return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
             })
@@ -78,7 +78,7 @@ export default class UserProfileService {
             .populate('user', ['email', 'avatar'])
             .then(profiles => {
                 if (profiles) {
-                    return Response.createResponse(profiles, null, null);
+                    return Response.createResponse(profiles);
                 }
                 return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
             })
@@ -176,7 +176,7 @@ export default class UserProfileService {
                     profile.experience.splice(indexToBeRemoved, 1);
 
                     return profile.save().then(profile => {
-                        return Response.createResponse(profile, null, null);
+                        return Response.createResponse(profile);
                     })
                 }
                 return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
@@ -203,7 +203,7 @@ export default class UserProfileService {
                     profile.experience.splice(indexToBeRemoved, 1);
 
                     return profile.save().then(profile => {
-                        return Response.createResponse(profile, null, null);
+                        return Response.createResponse(profile);
                     })
                 }
                 return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
@@ -229,7 +229,7 @@ export default class UserProfileService {
                     profile.education.splice(indexToBeRemoved, 1);
 
                     return profile.save().then(profile => {
-                        return Response.createResponse(profile, null, null);
+                        return Response.createResponse(profile);
                     })
                 }
                 return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
