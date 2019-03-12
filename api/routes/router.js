@@ -125,6 +125,13 @@ router.get('/posts/:id', passport.authenticate('jwt', { session: false }), postC
 // @access  Private
 router.get('/posts', passport.authenticate('jwt', { session: false }), postController.getAllPosts);
 
-
+// @route   DELETE api/posts/:id
+// @desc    Remove posts
+// @access  Private
+router.delete(
+    '/posts/:id',
+    passport.authenticate('jwt', { session: false }),
+    postController.removeUserPost
+);
 
 export default router;

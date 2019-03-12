@@ -5,11 +5,13 @@ exports.ResponseErrors = Object.freeze({
     USER_PROFILE_NOT_FOUND: 'User Profile not found',
     HANDLE_ALREADY_EXISTS: 'Handle already exists',
     POST_NOT_FOUND: 'Post Not Found',
-    POSTS_NOT_FOUND: 'Posts Not Found'
+    POSTS_NOT_FOUND: 'Posts Not Found',
+    UNAUTHORIZED_USER: 'User is unauthorized'
 });
 
 exports.ResponseSuccess = Object.freeze({
-    SUCCESSFULLY_SIGNED_IN: 'User successfully signed in'
+    SUCCESSFULLY_SIGNED_IN: 'User successfully signed in',
+    POST_REMOVED_SUCCESSFULLY: 'Post is successfully deleted'
 });
 
 exports.ValidationErrors = Object.freeze({
