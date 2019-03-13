@@ -14,6 +14,13 @@ export default class UserProfileService {
             'addUserExperience', 'addUserEducation', 'removeUserExperience', 'removeUserEducation');
     }
 
+    /**
+     * Method to get user profile
+     *
+     * @param req Request
+     *
+     * @returns {Promise<any | {data: *, msg: *, error: *}>}
+     */
     getUserProfile(req) {
         return this._model.findOne({user: req.params.user_id})
             .then(profile => {
@@ -27,6 +34,13 @@ export default class UserProfileService {
             })
     }
 
+    /**
+     * Method to create user profile
+     *
+     * @param req Request
+     *
+     * @returns {Promise}
+     */
     createUserProfile(req) {
         // Get fields
         const profileFields = this.profileFields(req);

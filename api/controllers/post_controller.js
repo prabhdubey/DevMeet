@@ -33,8 +33,8 @@ export default class PostController {
     /**
      * Get Post for given id
      *
-     * @param req
-     * @param res
+     * @param req Request
+     * @param res Response
      */
     getPost(req, res) {
         this.postService.getPost(req).then(postResponse => {
@@ -48,8 +48,8 @@ export default class PostController {
     /**
      * Get All Posts
      *
-     * @param req
-     * @param res
+     * @param req Request
+     * @param res Response
      */
     getAllPosts(req, res) {
         this.postService.getAllPosts().then(postResponse => {
