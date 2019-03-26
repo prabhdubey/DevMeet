@@ -134,4 +134,40 @@ router.delete(
     postController.removeUserPost
 );
 
+// @route   POST api/posts/:id/like
+// @desc    Like post
+// @access  Private
+router.post(
+    '/posts/:id/like',
+    passport.authenticate('jwt', { session: false }),
+    postController.likePost
+);
+
+// @route   POST api/posts/:id/unlike,
+// @desc    UnLike post
+// @access  Private
+router.post(
+    '/posts/:id/unlike',
+    passport.authenticate('jwt', { session: false }),
+    postController.unlikePost
+);
+
+// @route   POST api/posts/:id/comment
+// @desc    Comment on post
+// @access  Private
+router.post(
+    '/posts/:id/comment',
+    passport.authenticate('jwt', { session: false }),
+    postController.commentOnPost
+);
+
+// @route   DELETE api/posts/:id/comment
+// @desc    Remove comment on post
+// @access  Private
+router.delete(
+    '/posts/:id/comment/:comment_id',
+    passport.authenticate('jwt', { session: false }),
+    postController.removeCommentOnPost
+);
+
 export default router;

@@ -6,12 +6,18 @@ exports.ResponseErrors = Object.freeze({
     HANDLE_ALREADY_EXISTS: 'Handle already exists',
     POST_NOT_FOUND: 'Post Not Found',
     POSTS_NOT_FOUND: 'Posts Not Found',
-    UNAUTHORIZED_USER: 'User is unauthorized'
+    UNAUTHORIZED_USER: 'User is unauthorized',
+    ALREADY_LIKED_POST: 'User already liked the post',
+    POST_NOT_LIKED_YET: 'Post is not liked yet',
+    COMMENT_NOT_FOUND: 'Comment Not Found'
 });
 
 exports.ResponseSuccess = Object.freeze({
     SUCCESSFULLY_SIGNED_IN: 'User successfully signed in',
-    POST_REMOVED_SUCCESSFULLY: 'Post is successfully deleted'
+    POST_REMOVED_SUCCESSFULLY: 'Post is successfully deleted',
+    POST_LIKED_SUCCESSFULLY: 'Post is liked successfully',
+    POST_UNLIKED_SUCCESSFULLY: 'Post is unliked successfully',
+    COMMENT_REMOVED_SUCCESSFULLY: 'Comment removed successfully'
 });
 
 exports.ValidationErrors = Object.freeze({

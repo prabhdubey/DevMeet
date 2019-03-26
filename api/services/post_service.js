@@ -9,7 +9,8 @@ import UserProfile from '../models/user_profile';
 export default class PostService {
     constructor(model) {
         this._model = model;
-        _.bindAll(this, 'createPost', 'getPost', 'getAllPosts', 'removePost');
+        _.bindAll(this, 'createPost', 'getPost', 'getAllPosts', 'removePost', 'likePost', 'unlikePost', 'commentOnPost',
+            'removeCommentOnPost');
     }
 
     createPost(req) {
@@ -84,6 +85,142 @@ export default class PostService {
                             }
                             return Response.createResponse(null, null, ResponseMessage.ResponseErrors.POST_NOT_FOUND, 404);
                         })
+                }
+                return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
+            });
+    }
+
+    /**
+     * Method to like post for give id
+     *
+     * @param req Request
+     *
+     * @returns {Promise}
+     */
+    likePost(req) {
+        return UserProfile.findOne({user: req.user.id})
+            .then(profile => {
+                if (profile) {
+                    return this._model.findById(req.params.id)
+                        .then(post => {
+                            if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
+                                return Response.createResponse(
+                                    null, null, ResponseMessage.ResponseErrors.ALREADY_LIKED_POST, 400
+                                );
+                            }
+                            post.likes.unshift({user: req.user.id});
+                            return post.save().then(post => {
+                                return Response.createResponse(post, ResponseMessage.ResponseSuccess.POST_LIKED_SUCCESSFULLY);
+                            })
+                        })
+                        .catch(err => console.log(err));
+                }
+                return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
+            });
+    }
+
+    /**
+     * Method to unlike post for give id
+     *
+     * @param req Request
+     *
+     * @returns {Promise}
+     */
+    unlikePost(req) {
+        return UserProfile.findOne({user: req.user.id})
+            .then(profile => {
+                if (profile) {
+                    return this._model.findById(req.params.id)
+                        .then(post => {
+                            if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0) {
+                                return Response.createResponse(
+                                    null, null, ResponseMessage.ResponseErrors.POST_NOT_LIKED_YET, 400
+                                );
+                            }
+                            // Get remove index
+                            const removeIndex = post.likes
+                                .map(item => item.user.toString())
+                                .indexOf(req.user.id);
+
+                            // Splice out of array
+                            post.likes.splice(removeIndex, 1);
+
+                            return post.save().then(post => {
+                                return Response.createResponse(post, ResponseMessage.ResponseSuccess.POST_UNLIKED_SUCCESSFULLY);
+                            })
+                        })
+                        .catch(err => console.log(err));
+                }
+                return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
+            });
+    }
+
+    /**
+     * Method to comment on post for give id
+     *
+     * @param req Request
+     *
+     * @returns {Promise}
+     */
+    commentOnPost(req) {
+        return UserProfile.findOne({user: req.user.id})
+            .then(profile => {
+                if (profile) {
+                    return this._model.findById(req.params.id)
+                        .then(post => {
+                            const newComment = {
+                                text: req.body.text,
+                                name: req.body.name,
+                                avatar: req.body.avatar,
+                                user: req.user.id
+                            };
+
+                            // Add to comments array
+                            post.comments.unshift(newComment);
+
+                            return post.save().then(post => {
+                                return Response.createResponse(post);
+                            })
+                        })
+                        .catch(err => console.log(err));
+                }
+                return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
+            });
+    }
+
+    /**
+     * Method to comment on post for give id
+     *
+     * @param req Request
+     *
+     * @returns {Promise}
+     */
+    removeCommentOnPost(req) {
+        return UserProfile.findOne({user: req.user.id})
+            .then(profile => {
+                if (profile) {
+                    return this._model.findById(req.params.id)
+                        .then(post => {
+                            // Check to see if comment exists
+                            if (post.comments.filter(comment => comment._id.toString() === req.params.comment_id)
+                                .length === 0) {
+                                return Response.createResponse(
+                                    null, null, ResponseMessage.ResponseErrors.COMMENT_NOT_FOUND, 404
+                                );
+                            }
+                            // Get remove index
+                            const removeIndex = post.comments
+                                .map(item => item._id.toString())
+                                .indexOf(req.params.comment_id);
+
+                            // Splice comment out of array
+                            post.comments.splice(removeIndex, 1);
+
+                            return post.save().then(post => {
+                                return Response.createResponse(post, ResponseMessage.ResponseSuccess.COMMENT_REMOVED_SUCCESSFULLY);
+                            })
+                        })
+                        .catch(err => console.log(err));
                 }
                 return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
             });
