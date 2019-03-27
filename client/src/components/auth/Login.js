@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'underscore';
 
 class Login extends Component {
   constructor() {
@@ -9,8 +10,7 @@ class Login extends Component {
       errors: {}
     };
 
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    _.bindAll(this, 'onChange', 'onSubmit');
   }
 
   onSubmit(e) {

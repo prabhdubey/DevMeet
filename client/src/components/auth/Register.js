@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import classnames from 'classnames';
+import Url from '../../url';
 
 class Register extends Component {
   constructor() {
@@ -9,7 +10,7 @@ class Register extends Component {
       name: '',
       email: '',
       password: '',
-      password2: '',
+      confirmPassword: '',
       errors: {}
     };
 
@@ -28,13 +29,13 @@ class Register extends Component {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      password2: this.state.password2
+      confirmPassword: this.state.confirmPassword
     };
 
     axios
-      .post('/api/users/register', newUser)
+      .post(Url.REGISTER_USER, newUser)
       .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+      .catch(err => this.setState({ errors: err.response.data.errors }));
   }
 
   render() {
@@ -103,15 +104,15 @@ class Register extends Component {
                   <input
                     type="password"
                     className={classnames('form-control form-control-lg', {
-                      'is-invalid': errors.password2
+                      'is-invalid': errors.confirmPassword
                     })}
                     placeholder="Confirm Password"
-                    name="password2"
-                    value={this.state.password2}
+                    name="confirmPassword"
+                    value={this.state.confirmPassword}
                     onChange={this.onChange}
                   />
-                  {errors.password2 && (
-                    <div className="invalid-feedback">{errors.password2}</div>
+                  {errors.confirmPassword && (
+                    <div className="invalid-feedback">{errors.confirmPassword}</div>
                   )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
