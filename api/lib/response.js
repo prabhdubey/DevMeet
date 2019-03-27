@@ -11,7 +11,7 @@ export function createResponse(data = null, msg = null, error = null, status = 2
     return {
         'data': data,
         'msg': msg,
-        'error': error,
+        'errors': error,
         'status': status
     }
 }
