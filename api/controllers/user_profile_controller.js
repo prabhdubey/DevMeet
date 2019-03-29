@@ -21,7 +21,7 @@ export default class UserProfileController {
      */
     getUserProfile(req, res) {
         this.userProfileService.getUserProfile(req).then(userProfileResponse => {
-            if (userProfileResponse.error) {
+            if (userProfileResponse.errors) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }
             return res.status(userProfileResponse.status).json(userProfileResponse);
@@ -41,7 +41,7 @@ export default class UserProfileController {
             return res.status(400).json(errors);
         }
         this.userProfileService.createUserProfile(req).then(userProfileResponse => {
-            if (userProfileResponse.error) {
+            if (userProfileResponse.errors) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }
             return res.status(userProfileResponse.status).json(userProfileResponse);
@@ -56,7 +56,7 @@ export default class UserProfileController {
      */
     getProfileUsingHandle(req, res) {
         this.userProfileService.profileUsingHandle(req).then(userProfileResponse => {
-            if (userProfileResponse.error) {
+            if (userProfileResponse.errors) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }
             return res.status(userProfileResponse.status).json(userProfileResponse);
@@ -71,7 +71,7 @@ export default class UserProfileController {
      */
     getAllUserProfiles(req, res) {
         this.userProfileService.allUserProfiles().then(userProfileResponse => {
-            if (userProfileResponse.error) {
+            if (userProfileResponse.errors) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }
             return res.status(userProfileResponse.status).json(userProfileResponse);
@@ -91,7 +91,7 @@ export default class UserProfileController {
             return res.status(400).json(errors);
         }
         this.userProfileService.addUserExperience(req).then(userProfileResponse => {
-            if (userProfileResponse.error) {
+            if (userProfileResponse.errors) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }
             return res.status(userProfileResponse.status).json(userProfileResponse);
@@ -111,7 +111,7 @@ export default class UserProfileController {
             return res.status(400).json(errors);
         }
         this.userProfileService.addUserEducation(req).then(userProfileResponse => {
-            if (userProfileResponse.error) {
+            if (userProfileResponse.errors) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }
             return res.status(userProfileResponse.status).json(userProfileResponse);
@@ -126,7 +126,7 @@ export default class UserProfileController {
      */
     removeUserExperience(req, res) {
         this.userProfileService.removeUserExperience(req).then(userProfileResponse => {
-            if (userProfileResponse.error) {
+            if (userProfileResponse.errors) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }
             return res.status(userProfileResponse.status).json(userProfileResponse);
@@ -135,7 +135,7 @@ export default class UserProfileController {
 
     removeUserEducation(req, res) {
         this.userProfileService.removeUserEducation(req).then(userProfileResponse => {
-            if (userProfileResponse.error) {
+            if (userProfileResponse.errors) {
                 return res.status(userProfileResponse.status).json(userProfileResponse);
             }
             return res.status(userProfileResponse.status).json(userProfileResponse);

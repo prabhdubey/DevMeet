@@ -23,6 +23,7 @@ exports.ResponseSuccess = Object.freeze({
 exports.ValidationErrors = Object.freeze({
     NAME_VALIDATION: "Name must be between 2 and 10",
     NAME_EMPTY: 'Name is required',
+    EMAIL_EMPTY: 'Email is required',
     PASSWORD_EMPTY: 'Password is required',
     CONFIRMATION_PASSWORD_EMPTY: 'Confirm Password is required',
     EMAIL_VALIDATION: 'Email is invalid',

@@ -24,7 +24,7 @@ export default class PostController {
             return res.status(400).json(errors);
         }
         this.postService.createPost(req).then(postResponse => {
-            if (postResponse.error) {
+            if (postResponse.errors) {
                 return res.status(postResponse.status).json(postResponse);
             }
             return res.status(postResponse.status).json(postResponse);
@@ -39,7 +39,7 @@ export default class PostController {
      */
     getPost(req, res) {
         this.postService.getPost(req).then(postResponse => {
-            if (postResponse.error) {
+            if (postResponse.errors) {
                 return res.status(postResponse.status).json(postResponse);
             }
             return res.status(postResponse.status).json(postResponse);
@@ -54,7 +54,7 @@ export default class PostController {
      */
     getAllPosts(req, res) {
         this.postService.getAllPosts().then(postResponse => {
-            if (postResponse.error) {
+            if (postResponse.errors) {
                 return res.status(postResponse.status).json(postResponse);
             }
             return res.status(postResponse.status).json(postResponse);
@@ -69,7 +69,7 @@ export default class PostController {
      */
     removeUserPost(req, res) {
         this.postService.removePost(req).then(postResponse => {
-            if (postResponse.error) {
+            if (postResponse.errors) {
                 return res.status(postResponse.status).json(postResponse);
             }
             return res.status(postResponse.status).json(postResponse);
@@ -84,7 +84,7 @@ export default class PostController {
      */
     likePost(req, res) {
         this.postService.likePost(req).then(postResponse => {
-            if (postResponse.error) {
+            if (postResponse.errors) {
                 return res.status(postResponse.status).json(postResponse);
             }
             return res.status(postResponse.status).json(postResponse);
@@ -99,7 +99,7 @@ export default class PostController {
      */
     unlikePost(req, res) {
         this.postService.unlikePost(req).then(postResponse => {
-            if (postResponse.error) {
+            if (postResponse.errors) {
                 return res.status(postResponse.status).json(postResponse);
             }
             return res.status(postResponse.status).json(postResponse);
@@ -113,7 +113,7 @@ export default class PostController {
             return res.status(400).json(errors);
         }
         this.postService.commentOnPost(req).then(postResponse => {
-            if (postResponse.error) {
+            if (postResponse.errors) {
                 return res.status(postResponse.status).json(postResponse);
             }
             return res.status(postResponse.status).json(postResponse);
@@ -122,7 +122,7 @@ export default class PostController {
 
     removeCommentOnPost(req, res) {
         this.postService.removeCommentOnPost(req).then(postResponse => {
-            if (postResponse.error) {
+            if (postResponse.errors) {
                 return res.status(postResponse.status).json(postResponse);
             }
             return res.status(postResponse.status).json(postResponse);

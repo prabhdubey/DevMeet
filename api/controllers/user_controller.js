@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import validateRegisterInput from '../validations/register_validator';
+import validateLoginInput from '../validations/login_validator';
 import * as Response from "../lib/response";
 
 /**
@@ -24,8 +25,8 @@ export default class UserController {
             return res.status(400).json(Response.createResponse(null, null, errors, 400))
         }
         this.userService.register(req).then((userRegistrationResponse) => {
-            if (userRegistrationResponse.error) {
-                return res.status(400).json(userRegistrationResponse);
+            if (userRegistrationResponse.errors) {
+                return res.status(userRegistrationResponse.status).json(userRegistrationResponse);
             }
             return res.json(userRegistrationResponse);
         });
@@ -38,9 +39,14 @@ export default class UserController {
      * @param res Response
      */
     login(req, res) {
+        // Request validation
+        const {errors, isValid} = validateLoginInput(req.body);
+        if (!isValid) {
+            return res.status(400).json(Response.createResponse(null, null, errors, 400))
+        }
         this.userService.login(req).then((userLoginResponse) => {
-            if (userLoginResponse.error) {
-                return res.status(404).json(userLoginResponse);
+            if (userLoginResponse.errors) {
+                return res.status(userLoginResponse.status).json(userLoginResponse);
             }
             return res.json(userLoginResponse);
         });
@@ -48,8 +54,8 @@ export default class UserController {
 
     current(req, res) {
         this.userService.currentUser(req).then(currentUserResponse => {
-            if (currentUserResponse.error) {
-                return res.status(400).json(currentUserResponse);
+            if (currentUserResponse.errors) {
+                return res.status(currentUserResponse.status).json(currentUserResponse);
             }
             return res.json(currentUserResponse);
         })

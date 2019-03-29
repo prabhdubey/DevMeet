@@ -37,3 +37,8 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+
+.profile-image {
+  width: 25px;
+  margin-right: 5px;
+}
