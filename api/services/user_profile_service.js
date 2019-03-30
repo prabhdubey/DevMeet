@@ -11,7 +11,28 @@ export default class UserProfileService {
     constructor(model) {
         this._model = model;
         _.bindAll(this, 'getUserProfile', 'profileFields', 'createUserProfile', 'profileUsingHandle', 'allUserProfiles',
-            'addUserExperience', 'addUserEducation', 'removeUserExperience', 'removeUserEducation');
+            'addUserExperience', 'addUserEducation', 'removeUserExperience', 'removeUserEducation', 'getCurrentUserProfile');
+    }
+
+    /**
+     * Method to get user profile
+     *
+     * @param req Request
+     *
+     * @returns {Promise<any | {data: *, msg: *, error: *}>}
+     */
+    getCurrentUserProfile(req) {
+        return this._model.findOne({user: req.user_id})
+            .populate('user', ['name', 'avatar'])
+            .then(profile => {
+                if (!profile) {
+                    return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
+                }
+                return Response.createResponse(profile);
+            })
+            .catch(err => {
+                return Response.createResponse(null, null, err, 400);
+            })
     }
 
     /**

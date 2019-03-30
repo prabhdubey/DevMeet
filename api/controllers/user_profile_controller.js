@@ -10,7 +10,18 @@ export default class UserProfileController {
     constructor(userProfileService) {
         this.userProfileService = userProfileService;
         _.bindAll(this, 'getUserProfile', 'createUserProfile', 'getProfileUsingHandle', 'getAllUserProfiles',
-            'addUserExperience', 'addUserEducation', 'removeUserExperience', 'removeUserEducation');
+            'addUserExperience', 'addUserEducation', 'removeUserExperience', 'removeUserEducation',
+            'getCurrentUserProfile'
+        );
+    }
+
+    getCurrentUserProfile(req, res) {
+        this.userProfileService.getCurrentUserProfile(req).then(userProfileResponse => {
+            if (userProfileResponse.errors) {
+                return res.status(userProfileResponse.status).json(userProfileResponse);
+            }
+            return res.status(userProfileResponse.status).json(userProfileResponse);
+        })
     }
 
     /**
@@ -104,7 +115,7 @@ export default class UserProfileController {
      * @param req Request
      * @param res Response
      */
-    addUserEducation(req,res) {
+    addUserEducation(req, res) {
         const {errors, isValid} = validateEducationInput(req.body);
         // Check validation
         if (!isValid) {

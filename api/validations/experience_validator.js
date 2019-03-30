@@ -1,6 +1,6 @@
 import moment from 'moment';
-import HelperValidator from './helper_validator';
 const Validator = require('validator');
+import HelperValidator from './helper_validator';
 import ResponseMessage from '../lib/constants';
 
 module.exports = function validateExperienceInput(data) {
