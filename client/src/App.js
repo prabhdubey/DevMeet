@@ -2,22 +2,28 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import jwt_decoode from 'jwt-decode';
 import authUtils from './utils/authUtils';
-import {setCurrentUser} from "./actions/authActions";
+import {setCurrentUser, logoutUser} from "./actions/authActions";
+import {clearCurrentProfile} from "./actions/profileActions";
 
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import Landing from './components/layout/Landing';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
 import store from './store';
 
 import './assets/stylesheets/App.css';
 import {Provider} from 'react-redux';
+import Url from "./url";
+import Routes from "./router";
 
 if (localStorage.jwtToken) {
     authUtils.setAuthToken(localStorage.jwtToken);
     const decoded = jwt_decoode(localStorage.jwtToken);
     store.dispatch(setCurrentUser(decoded));
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+        store.dispatch(logoutUser());
+        store.dispatch(clearCurrentProfile());
+        window.location.href = Url.LOGIN_USER;
+    }
 }
 
 class App extends Component {
@@ -27,11 +33,7 @@ class App extends Component {
                 <Router>
                     <div className="App">
                         <Navbar/>
-                        <Route exact path="/" component={Landing}/>
-                        <div className="container">
-                            <Route exact path="/register" component={Register}/>
-                            <Route exact path="/login" component={Login}/>
-                        </div>
+                        <Routes/>
                         <Footer/>
                     </div>
                 </Router>

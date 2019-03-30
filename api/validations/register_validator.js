@@ -3,7 +3,7 @@ import ResponseMessage from '../lib/constants';
 import HelperValidator from './helper_validator';
 
 const NAME_MIN_LEN = 2;
-const NAME_MAX_LEN = 10;
+const NAME_MAX_LEN = 20;
 const PASSWORD_MIN_LEN = 6;
 const PASSWORD_MAX_LEN = 30;
 

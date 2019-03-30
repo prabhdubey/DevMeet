@@ -7,7 +7,7 @@ import AuthUtils from '../utils/authUtils';
 // Register user action
 export const registerUser = (userData, history) => dispatch => {
     axios
-        .post(Url.REGISTER_USER, userData)
+        .post(Url.API_REGISTER_USER, userData)
         .then(res => {
             history.push('/login');
         })
@@ -19,7 +19,7 @@ export const registerUser = (userData, history) => dispatch => {
 
 // Login user action
 export const loginUser = userData => dispatch => {
-    axios.post(Url.LOGIN_USER, userData)
+    axios.post(Url.API_LOGIN_USER, userData)
         .then(res => {
             // save token to localstorage
             const {token} = res.data.data;

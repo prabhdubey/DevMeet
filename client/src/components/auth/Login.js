@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import _ from 'underscore';
-import classnames from "classnames";
 import {loginUser} from '../../actions/authActions';
 import Url from "../../url";
+import TextFieldGroup from "../common/textFieldGroup";
 
 class Login extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             email: '',
             password: '',
@@ -19,7 +19,7 @@ class Login extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.auth.isAuthenticated) {
+        if (nextProps.auth.isAuthenticated) {
             this.props.history.push(Url.DASHBOARD);
         }
         if (nextProps.errors) {
@@ -28,7 +28,7 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        if(this.props.auth.isAuthenticated) {
+        if (this.props.auth.isAuthenticated) {
             this.props.history.push(Url.DASHBOARD);
         }
     }
@@ -62,34 +62,24 @@ class Login extends Component {
                             </p>
                             <form onSubmit={this.onSubmit}>
                                 <div className="form-group">
-                                    <input
+                                    <TextFieldGroup
                                         type="email"
                                         placeholder="Email Address"
-                                        className={classnames('form-control form-control-lg', {
-                                            'is-invalid': errors.email
-                                        })}
                                         name="email"
                                         value={this.state.email}
                                         onChange={this.onChange}
+                                        error={errors.email}
                                     />
-                                    {errors.email && (
-                                        <div className="invalid-feedback">{errors.email}</div>
-                                    )}
                                 </div>
                                 <div className="form-group">
-                                    <input
+                                    <TextFieldGroup
                                         type="password"
-                                        className={classnames('form-control form-control-lg', {
-                                            'is-invalid': errors.password
-                                        })}
                                         placeholder="Password"
                                         name="password"
                                         value={this.state.password}
                                         onChange={this.onChange}
+                                        error={errors.password}
                                     />
-                                    {errors.password && (
-                                        <div className="invalid-feedback">{errors.password}</div>
-                                    )}
                                 </div>
                                 <input type="submit" className="btn btn-info btn-block mt-4"/>
                             </form>
