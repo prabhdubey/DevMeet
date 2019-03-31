@@ -6,6 +6,7 @@ import passport from 'passport';
 
 import 'dotenv/config';
 
+const path = require('path');
 const app = express();
 
 // DB config keys
@@ -27,6 +28,16 @@ require('./api/lib/passport')(passport);
 
 // Use Routes
 app.use('/api', routes);
+
+if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
+
 
 const port = process.env.PORT || 5000 ;
 
