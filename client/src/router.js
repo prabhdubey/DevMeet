@@ -37,7 +37,7 @@ const Routes = () => {
         <Route exact path={Url.PROFILE_NOT_FOUND} component={NotFound}/>,
 );
     return (
-        <div className="container">
+        <div>
             <Switch>
                 {routeArray}
             </Switch>

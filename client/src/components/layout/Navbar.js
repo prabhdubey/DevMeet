@@ -34,8 +34,8 @@ class Navbar extends Component {
                              data-toggle="dropdown"
                         />
                         <div className="dropdown-menu dropdown-menu-right">
-                            <a className="dropdown-item" onClick={this.onLogoutClick}>Logout</a>
                             <Link className="dropdown-item" to={Url.DASHBOARD}>Dashboard</Link>
+                            <a className="dropdown-item" onClick={this.onLogoutClick}>Logout</a>
                         </div>
                     </div>
                 </li>
@@ -60,7 +60,7 @@ class Navbar extends Component {
             <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
                 <div className="container">
                     <Link className="navbar-brand" to={Url.LANDING}>
-                        DevConnector
+                        DevMeet
                     </Link>
                     <button
                         className="navbar-toggler"
