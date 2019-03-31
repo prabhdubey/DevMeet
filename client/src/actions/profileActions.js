@@ -150,7 +150,6 @@ export const getProfiles = () => dispatch => {
     axios
         .get(Url.API_ALL_USERS_PROFILES)
         .then(res => {
-                console.log(res.data.data);
                 dispatch({
                     type: Types.GET_PROFILES,
                     payload: res.data.data
