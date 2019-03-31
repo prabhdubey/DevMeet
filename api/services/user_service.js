@@ -1,6 +1,6 @@
 import ResponseMessage from "../lib/constants";
 import _ from 'underscore';
-import gravatar from 'gravatar';;
+import gravatar from 'gravatar';
 import * as Response from "../lib/response";
 import jwt from 'jsonwebtoken';
 
