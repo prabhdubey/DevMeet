@@ -9,7 +9,7 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case Types.LOADING_PROFILE:
-            return  {
+            return {
                 ...state,
                 loading: true
             };
@@ -20,11 +20,17 @@ export default function (state = initialState, action) {
                 loading: false
             };
         case Types.CLEAR_CURRENT_PROFILE:
-          return  {
-              ...state,
-              profile: null
+            return {
+                ...state,
+                profile: null
 
-        };
+            };
+        case Types.GET_PROFILES:
+            return {
+                ...state,
+                profiles: action.payload,
+                loading: false
+            };
 
         default:
             return state;

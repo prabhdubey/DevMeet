@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import _ from 'underscore';
 import {loginUser} from '../../actions/authActions';
 import Url from "../../url";
-import TextFieldGroup from "../common/textFieldGroup";
+import TextFieldGroup from "../common/TextFieldGroup";
 
 class Login extends Component {
     constructor(props) {

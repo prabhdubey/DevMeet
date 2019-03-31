@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import {registerUser} from "../../actions/authActions";
 import _ from "underscore";
 import Url from "../../url";
-import TextFieldGroup from "../common/textFieldGroup";
+import TextFieldGroup from "../common/TextFieldGroup";
 
 
 class Register extends Component {

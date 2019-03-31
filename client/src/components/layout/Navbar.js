@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {logoutUser} from "../../actions/authActions";
 import {clearCurrentProfile} from "../../actions/profileActions";
 import _ from "underscore";
+import Url from "../../url";
 
 class Navbar extends Component {
     constructor(props) {
@@ -29,6 +30,7 @@ class Navbar extends Component {
                              />
                         <div className="dropdown-menu dropdown-menu-right">
                             <a className="dropdown-item" onClick={this.onLogoutClick}>Logout</a>
+                            <Link className="dropdown-item" to={Url.DASHBOARD}>Dashboard</Link>
                         </div>
                     </div>
                 </li>
@@ -37,12 +39,12 @@ class Navbar extends Component {
 
         const guestLinks = (<ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                    <Link className="nav-link" to="/register">
+                    <Link className="nav-link" to={Url.REGISTER_USER}>
                         Sign Up
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/login">
+                    <Link className="nav-link" to={Url.LOGIN_USER}>
                         Login
                     </Link>
                 </li>
@@ -52,7 +54,7 @@ class Navbar extends Component {
         return (
             <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
                 <div className="container">
-                    <Link className="navbar-brand" to="/">
+                    <Link className="navbar-brand" to={Url.LANDING}>
                         DevConnector
                     </Link>
                     <button
