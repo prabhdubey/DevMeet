@@ -3,7 +3,7 @@ import ResponseMessage from '../lib/constants';
 import HelperValidator from './helper_validator';
 
 const NAME_MIN_LEN = 2;
-const NAME_MAX_LEN = 10;
+const NAME_MAX_LEN = 20;
 const PASSWORD_MIN_LEN = 6;
 const PASSWORD_MAX_LEN = 30;
 
@@ -28,7 +28,7 @@ module.exports = function validateRegisterInput(data) {
     }
 
     if (!Validator.isEmail(data.email)) {
-        errors.email = ResponseMessage.ValidationErrors.NAME_EMPTY;
+        errors.email = ResponseMessage.ValidationErrors.EMAIL_EMPTY;
     }
 
     if (Validator.isEmpty(data.password)) {

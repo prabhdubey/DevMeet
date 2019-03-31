@@ -9,7 +9,7 @@ module.exports = function validateExperienceInput(data) {
     data.degree = !HelperValidator.isEmpty(data.degree) ? data.degree : '';
     data.fieldOfStudy = !HelperValidator.isEmpty(data.fieldOfStudy) ? data.fieldOfStudy : '';
     data.from = !HelperValidator.isEmpty(data.from) ? data.from : '';
-    data.to = !HelperValidator.isEmpty(data.to) ? data.to : '';
+    data.to = !HelperValidator.isEmpty(data.to) ? data.to : null;
 
 
     if (Validator.isEmpty(data.school)) {
@@ -17,10 +17,10 @@ module.exports = function validateExperienceInput(data) {
     }
 
     if (Validator.isEmpty(data.degree)) {
-        errors.degree = ResponseMessage.ValidationErrors.DEGREE_IS_REQUIRED;;
+        errors.degree = ResponseMessage.ValidationErrors.DEGREE_IS_REQUIRED;
     }
 
-    if (Validator.isEmpty(data.field_of_study)) {
+    if (Validator.isEmpty(data.fieldOfStudy)) {
         errors.field_of_study = ResponseMessage.ValidationErrors.STUDY_FIELD_IS_REQUIRED;
     }
 

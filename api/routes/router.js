@@ -53,6 +53,15 @@ router.get('/users/profiles/test', (req, res) => res.json({msg: 'Profile Route w
 // @access  Public
 router.get('/users/profiles/all', userProfileController.getAllUserProfiles);
 
+
+// @route   GET api/profiles
+// @desc    Get current user profile
+// @access  Private
+router.get('/users/profile/',
+    passport.authenticate('jwt', {session: false}),
+    userProfileController.getCurrentUserProfile
+);
+
 // @route   GET api/profiles/test
 // @desc    Test profiles route
 // @access  Public
@@ -101,6 +110,15 @@ router.delete(
     '/users/profiles/education/:edu_id',
     passport.authenticate('jwt', { session: false }),
     userProfileController.removeUserEducation
+);
+
+// @route   DELETE api/profile/education/:edu_id
+// @desc    Remove education from profile
+// @access  Private
+router.delete(
+    '/users/profile',
+    passport.authenticate('jwt', { session: false }),
+    userProfileController.deleteCurrentUserProfile
 );
 
 // ====================================Posts Routes====================================================================

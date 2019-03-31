@@ -24,7 +24,7 @@ export default class UserService {
         return this._model.findOne({email: req.body.email})
             .then(user => {
                 if (user) {
-                    return Response.createResponse(null, null, ResponseMessage.ResponseErrors.EMAIL_ALREADY_EXISTS);
+                    return Response.createResponse(null, null, {email: ResponseMessage.ResponseErrors.EMAIL_ALREADY_EXISTS});
                 }
                 try {
                     return this.createNewUser(req).then((user) => {
@@ -50,7 +50,7 @@ export default class UserService {
         return this._model.findOne({email: email})
             .then(async (user) => {
                 if (!user) {
-                    return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_NOT_FOUND);
+                    return Response.createResponse(null, null, {email: ResponseMessage.ResponseErrors.USER_NOT_FOUND}, 404);
                 }
                 if (await user.isPasswordValid(password)) {
                     return Response.createResponse(
@@ -59,7 +59,7 @@ export default class UserService {
                         null
                     )
                 }
-                return Response.createResponse(null, null, ResponseMessage.ResponseErrors.INVALID_USERNAME_PASSWORD);
+                return Response.createResponse(null, null, {email: ResponseMessage.ResponseErrors.INVALID_USERNAME_PASSWORD}, 400);
             })
     }
 

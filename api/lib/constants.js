@@ -17,12 +17,14 @@ exports.ResponseSuccess = Object.freeze({
     POST_REMOVED_SUCCESSFULLY: 'Post is successfully deleted',
     POST_LIKED_SUCCESSFULLY: 'Post is liked successfully',
     POST_UNLIKED_SUCCESSFULLY: 'Post is unliked successfully',
-    COMMENT_REMOVED_SUCCESSFULLY: 'Comment removed successfully'
+    COMMENT_REMOVED_SUCCESSFULLY: 'Comment removed successfully',
+    ACCOUNT_DELETED_SUCCESSFULLY: 'Account deleted successfully'
 });
 
 exports.ValidationErrors = Object.freeze({
     NAME_VALIDATION: "Name must be between 2 and 10",
     NAME_EMPTY: 'Name is required',
+    EMAIL_EMPTY: 'Email is required',
     PASSWORD_EMPTY: 'Password is required',
     CONFIRMATION_PASSWORD_EMPTY: 'Confirm Password is required',
     EMAIL_VALIDATION: 'Email is invalid',
