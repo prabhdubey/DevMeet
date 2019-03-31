@@ -9,7 +9,7 @@ export const registerUser = (userData, history) => dispatch => {
     axios
         .post(Url.API_REGISTER_USER, userData)
         .then(res => {
-            history.push('/login');
+            history.push(Url.LOGIN_USER);
         })
         .catch(err => dispatch({
             type: Types.GET_ERRORS,
@@ -53,4 +53,5 @@ export const logoutUser = () => dispatch => {
     localStorage.removeItem('jwtToken');
     AuthUtils.setAuthToken(false);
     dispatch(setCurrentUser({}));
+    window.location.href = Url.LANDING;
 };
