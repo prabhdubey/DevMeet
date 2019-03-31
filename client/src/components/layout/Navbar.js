@@ -24,10 +24,15 @@ class Navbar extends Component {
         const authLinks = (
             <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                    {/*<Link className="nav-link" to="/login">*/}
+                    <Link className="nav-link" to={Url.POST_FEED}>
+                        Post Feed
+                    </Link>
+                </li>
+                <li>
                     <div className="dropdown">
-                        <img src={user.avatar} className="profile-image dropdown-toggle rounded-circle" data-toggle="dropdown"
-                             />
+                        <img src={user.avatar} className="profile-image dropdown-toggle rounded-circle"
+                             data-toggle="dropdown"
+                        />
                         <div className="dropdown-menu dropdown-menu-right">
                             <a className="dropdown-item" onClick={this.onLogoutClick}>Logout</a>
                             <Link className="dropdown-item" to={Url.DASHBOARD}>Dashboard</Link>
@@ -69,7 +74,7 @@ class Navbar extends Component {
                     <div className="collapse navbar-collapse" id="mobile-nav">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/profiles">
+                                <Link className="nav-link" to={Url.PROFILES}>
                                     {' '}
                                     Developers
                                 </Link>

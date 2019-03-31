@@ -175,12 +175,17 @@ export default class PostService {
                                 user: req.user.id
                             };
 
+                            console.log(post);
+                            console.log("=========================================");
                             // Add to comments array
                             post.comments.unshift(newComment);
 
                             return post.save().then(post => {
+                                console.log("=========================================");
+                                console.log(post);
                                 return Response.createResponse(post);
                             })
+                                .catch(err => console.log(err));
                         })
                         .catch(err => console.log(err));
                 }

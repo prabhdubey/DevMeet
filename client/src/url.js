@@ -84,4 +84,31 @@ export default class Url {
         return '/api/users/profiles/handle';
     }
 
+    static get API_POST() {
+        return '/api/posts';
+    }
+
+    static  API_LIKE_POST(id) {
+        return `/api/posts/${id}/like`;
+    }
+
+    static  API_UNLIKE_POST(id) {
+        return `/api/posts/${id}/unlike`;
+    }
+
+    static  API_ADD_COMMENT_ON_POST(postId) {
+        return `/api/posts/${postId}/comment/`;
+    }
+
+    static  API_DELETE_COMMENT_ON_POST(postId, commentId) {
+        return `/api/posts/${postId}/comment/${commentId}`;
+    }
+
+    static get POST_FEED() {
+        return '/feed';
+    }
+
+    static get POST() {
+        return "/post/:id";
+    }
 };

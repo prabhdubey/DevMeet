@@ -11,10 +11,16 @@ export default class UserProfileController {
         this.userProfileService = userProfileService;
         _.bindAll(this, 'getUserProfile', 'createUserProfile', 'getProfileUsingHandle', 'getAllUserProfiles',
             'addUserExperience', 'addUserEducation', 'removeUserExperience', 'removeUserEducation',
-            'getCurrentUserProfile'
+            'getCurrentUserProfile', 'deleteCurrentUserProfile'
         );
     }
 
+    /**
+     * Method to get current user profile
+     *
+     * @param req Request
+     * @param res Response
+     */
     getCurrentUserProfile(req, res) {
         this.userProfileService.getCurrentUserProfile(req).then(userProfileResponse => {
             if (userProfileResponse.errors) {
@@ -23,6 +29,22 @@ export default class UserProfileController {
             return res.status(userProfileResponse.status).json(userProfileResponse);
         })
     }
+
+    /**
+     * Method to delete current user profile
+     *
+     * @param req Request
+     * @param res Response
+     */
+    deleteCurrentUserProfile(req, res) {
+        this.userProfileService.deleteCurrentUserProfile(req).then(userProfileResponse => {
+            if (userProfileResponse.errors) {
+                return res.status(userProfileResponse.status).json(userProfileResponse);
+            }
+            return res.status(userProfileResponse.status).json(userProfileResponse);
+        })
+    }
+
 
     /**
      * Method to get user profile using user id

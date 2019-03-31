@@ -17,7 +17,8 @@ exports.ResponseSuccess = Object.freeze({
     POST_REMOVED_SUCCESSFULLY: 'Post is successfully deleted',
     POST_LIKED_SUCCESSFULLY: 'Post is liked successfully',
     POST_UNLIKED_SUCCESSFULLY: 'Post is unliked successfully',
-    COMMENT_REMOVED_SUCCESSFULLY: 'Comment removed successfully'
+    COMMENT_REMOVED_SUCCESSFULLY: 'Comment removed successfully',
+    ACCOUNT_DELETED_SUCCESSFULLY: 'Account deleted successfully'
 });
 
 exports.ValidationErrors = Object.freeze({

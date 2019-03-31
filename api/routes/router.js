@@ -112,6 +112,15 @@ router.delete(
     userProfileController.removeUserEducation
 );
 
+// @route   DELETE api/profile/education/:edu_id
+// @desc    Remove education from profile
+// @access  Private
+router.delete(
+    '/users/profile',
+    passport.authenticate('jwt', { session: false }),
+    userProfileController.deleteCurrentUserProfile
+);
+
 // ====================================Posts Routes====================================================================
 
 // @route   GET api/posts/test

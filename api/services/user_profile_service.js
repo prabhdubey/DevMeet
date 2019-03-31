@@ -2,6 +2,7 @@ import ResponseMessage from "../lib/constants";
 import _ from 'underscore';
 import * as Response from "../lib/response";
 import HelperValidator from "../validations/helper_validator";
+import User from '../models/user';
 import moment from "moment";
 
 /**
@@ -11,22 +12,27 @@ export default class UserProfileService {
     constructor(model) {
         this._model = model;
         _.bindAll(this, 'getUserProfile', 'profileFields', 'createUserProfile', 'profileUsingHandle', 'allUserProfiles',
-            'addUserExperience', 'addUserEducation', 'removeUserExperience', 'removeUserEducation', 'getCurrentUserProfile');
+            'addUserExperience', 'addUserEducation', 'removeUserExperience', 'removeUserEducation', 'getCurrentUserProfile',
+            'deleteCurrentUserProfile');
     }
 
     /**
-     * Method to get user profile
+     * Method to get current user profile
      *
      * @param req Request
      *
      * @returns {Promise<any | {data: *, msg: *, error: *}>}
      */
     getCurrentUserProfile(req) {
-        return this._model.findOne({user: req.user_id})
-            .populate('user', ['name', 'avatar'])
+        return this._model.findOne({user: req.user.id})
+            .populate('user', ['name', 'avatar', 'name'])
             .then(profile => {
                 if (!profile) {
-                    return Response.createResponse(null, null, ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND, 404);
+                    return Response.createResponse(
+                        null,
+                        null,
+                        {email: ResponseMessage.ResponseErrors.USER_PROFILE_NOT_FOUND},
+                        404);
                 }
                 return Response.createResponse(profile);
             })
@@ -34,6 +40,27 @@ export default class UserProfileService {
                 return Response.createResponse(null, null, err, 400);
             })
     }
+
+    /**
+     * Method to delete current user profile
+     *
+     * @param req Request
+     *
+     * @returns {Promise<any | {data: *, msg: *, error: *}>}
+     */
+    deleteCurrentUserProfile(req) {
+        return this._model.findOneAndRemove({user: req.user.id})
+            .then(() => {
+                return User.findOneAndRemove({_id: req.user.id})
+                .then(() =>{
+                    return Response.createResponse(null, ResponseMessage.ResponseSuccess.ACCOUNT_DELETED_SUCCESSFULLY);
+                })
+            })
+            .catch(err => {
+                return Response.createResponse(null, null, err, 400);
+            })
+    }
+
 
     /**
      * Method to get user profile
@@ -65,10 +92,10 @@ export default class UserProfileService {
     createUserProfile(req) {
         // Get fields
         const profileFields = this.profileFields(req);
-        return this._model.findOneAndUpdate({user_id: req.body.user_id}, profileFields, {new: true})
+
+        return this._model.findOneAndUpdate({user_id: req.user.id}, profileFields, {new: true})
             .then(profile => {
                 if (profile) {
-                    console.log(profile);
                     return Response.createResponse(profile)
                 }
                 return this._model.findOne({handle: profileFields.handle})
@@ -94,7 +121,7 @@ export default class UserProfileService {
      */
     profileUsingHandle(req) {
         return this._model.findOne({handle: req.params.handle})
-            .populate('user', ['email', 'avatar'])
+            .populate('user', ['email', 'avatar', 'name'])
             .then((profile) => {
                 if (profile) {
                     return Response.createResponse(profile);
@@ -110,7 +137,7 @@ export default class UserProfileService {
      */
     allUserProfiles() {
         return this._model.find()
-            .populate('user', ['email', 'avatar'])
+            .populate('user', ['email', 'avatar', 'name'])
             .then(profiles => {
                 if (profiles) {
                     return Response.createResponse(profiles);
@@ -127,11 +154,9 @@ export default class UserProfileService {
      * @returns {Promise}
      */
     addUserExperience(req) {
-        return this._model.findOne({user: req.user_id})
+        return this._model.findOne({user: req.user.id})
             .then(profile => {
-                req.body.to = !HelperValidator.isEmpty(req.body.to) ? req.body.to : moment(moment.now()).format("YYYY-MM-DD");
                 if (profile) {
-                    console.log(req.body.to);
                     const newExp = {
                         title: req.body.title,
                         company: req.body.company,
@@ -164,20 +189,18 @@ export default class UserProfileService {
      * @returns {Promise}
      */
     addUserEducation(req) {
-        return this._model.findOne({user: req.user_id})
+        return this._model.findOne({user: req.user.id})
             .then(profile => {
                 if (profile) {
                     const newEdu = {
                         school: req.body.school,
                         degree: req.body.degree,
-                        field_of_study: req.body.field_of_study,
+                        field_of_study: req.body.fieldOfStudy,
                         from: req.body.from,
                         to: req.body.to,
                         current: req.body.current,
                         description: req.body.description
                     };
-
-
                     // Add to exp array
                     profile.education.unshift(newEdu);
                     return profile.save()
@@ -200,7 +223,7 @@ export default class UserProfileService {
      * @returns {Promise}
      */
     removeUserExperience(req) {
-        return this._model.findOne({user: req.user_id})
+        return this._model.findOne({user: req.user.id})
             .then(profile => {
                 if (profile) {
                     const indexToBeRemoved = profile.experience
@@ -227,7 +250,7 @@ export default class UserProfileService {
      * @returns {Promise}
      */
     removeUserExperience(req) {
-        return this._model.findOne({user: req.user_id})
+        return this._model.findOne({user: req.user.id})
             .then(profile => {
                 if (profile) {
                     const indexToBeRemoved = profile.experience
@@ -253,7 +276,7 @@ export default class UserProfileService {
      * @returns {Promise}
      */
     removeUserEducation(req) {
-        return this._model.findOne({user: req.user_id})
+        return this._model.findOne({user: req.user.id})
             .then(profile => {
                 if (profile) {
                     const indexToBeRemoved = profile.education
@@ -288,7 +311,7 @@ export default class UserProfileService {
         if (req.body.bio) profileFields.bio = req.body.bio;
         if (req.body.status) profileFields.status = req.body.status;
         if (req.body.githubusername)
-            profileFields.githubusername = req.body.githubusername;
+            profileFields.github_username = req.body.githubusername;
         // Skills - Spilt into array
         if (typeof req.body.skills !== 'undefined') {
             profileFields.skills = req.body.skills.split(',');

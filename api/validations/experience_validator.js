@@ -9,7 +9,7 @@ module.exports = function validateExperienceInput(data) {
     data.title = !HelperValidator.isEmpty(data.title) ? data.title : '';
     data.company = !HelperValidator.isEmpty(data.company) ? data.company : '';
     data.from = !HelperValidator.isEmpty(data.from) ? data.from : '';
-    data.to = !HelperValidator.isEmpty(data.to) ? data.to : moment(moment.now()).format("YYYY-MM-DD");
+    data.to = !HelperValidator.isEmpty(data.to) ? data.to : null;
 
     if (Validator.isEmpty(data.title)) {
         errors.title = ResponseMessage.ValidationErrors.JOB_TITLE_REQUIRED;
@@ -23,7 +23,7 @@ module.exports = function validateExperienceInput(data) {
         errors.from = ResponseMessage.ValidationErrors.FROM_DATE_IS_REQUIRED;
     }
 
-    if (!HelperValidator.checkDate(data.from, data.to)) {
+    if (!HelperValidator.checkDate(data.from, moment(moment.now()).format("YYYY-MM-DD"))) {
         errors.date = ResponseMessage.ValidationErrors.INVALID_DATE
     }
 

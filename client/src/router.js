@@ -12,6 +12,8 @@ import AddEducation from "./components/add_credentials/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import NotFound from "./components/not-found/NotFound";
+import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
 
 import Url from "./url";
 
@@ -30,8 +32,10 @@ const Routes = () => {
         <Route exact path={Url.LOGIN_USER} component={Login}/>,
         <Route exact path={Url.PROFILES} component={Profiles}/>,
         <Route exact path={Url.PROFILE} component={Profile}/>,
-        <Route exact path={Url.PROFILE_NOT_FOUND} component={NotFound}/>
-    );
+        <PrivateRoute exact path={Url.POST_FEED} component={Posts} />,
+        <PrivateRoute exact path={Url.POST} component={Post} />,
+        <Route exact path={Url.PROFILE_NOT_FOUND} component={NotFound}/>,
+);
     return (
         <div className="container">
             <Switch>
